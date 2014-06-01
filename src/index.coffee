@@ -52,6 +52,10 @@ init = (el, opts = {}) ->
 
   unless $el.find('canvas').length
     $el.append('<canvas>')
+
+  if opts.canvasSize?
+    opts.sizeToContainer = true
+
   lc = new LiterallyCanvas($el.find('canvas').get(0), opts)
   initReact(el, lc, opts.tools, opts.imageURLPrefix)
 

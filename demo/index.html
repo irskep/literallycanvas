@@ -23,11 +23,6 @@
       .literally {
         width: 100%;
         height: 100%;
-        position: relative;
-      }
-
-      .literally img.background, .literally > canvas {
-        position: absolute;
       }
     </style>
   </head>
@@ -68,6 +63,7 @@
           imageURLPrefix: '/lib/img',
           // preserveCanvasContents: true,
           watermarkImage: watermarkImage,
+          canvasSize: {x: 300, y: 300},
           onInit: function(lc) {
             lc.loadSnapshotJSON(localStorage.getItem('drawing'));
 
