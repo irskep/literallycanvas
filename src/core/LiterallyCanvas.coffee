@@ -15,6 +15,7 @@ module.exports = class LiterallyCanvas
       secondary: @opts.secondaryColor or '#fff'
       background: @opts.backgroundColor or 'transparent'
     @canvas.style.backgroundColor = @colors.background
+    @canvas.style.left = opts.pickerWidth + 'px'
 
     @watermarkImage = @opts.watermarkImage
     if @watermarkImage and not @watermarkImage.complete
@@ -46,7 +47,8 @@ module.exports = class LiterallyCanvas
     @backgroundShapes = @backgroundShapes.concat(@opts.backgroundShapes or [])
 
     if @opts.sizeToContainer
-      util.sizeToContainer(@canvas, => @repaint())
+      util.sizeToContainer(
+        @canvas, @opts.pickerWidth, @opts.optionsHeight, => @repaint())
     else
       @updateSize()
 

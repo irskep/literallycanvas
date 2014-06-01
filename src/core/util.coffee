@@ -8,12 +8,12 @@ module.exports =
     else
       return array[array.length - 1]
 
-  sizeToContainer: (canvas, callback = ->) ->
+  sizeToContainer: (canvas, marginX, marginY, callback = ->) ->
     $canvas = $(canvas)
     $container = $canvas.parent()
     resize = =>
-      canvas.style.width = "#{$container.width()}px"
-      canvas.style.height = "#{$container.height()}px"
+      canvas.style.width = "#{$container.width() - marginX}px"
+      canvas.style.height = "#{$container.height() - marginY}px"
       canvas.setAttribute('width', $canvas.width())
       canvas.setAttribute('height', $canvas.height())
       callback()

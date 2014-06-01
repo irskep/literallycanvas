@@ -49,10 +49,7 @@ $optionsHeight: 60px;
     z-index: 0;
   }
 
-  canvas {
-    top: 0; right: 0; bottom: $optionsHeight; left: $pickerWidth;
-    z-index: 1;
-  }
+  canvas { top: 0; right: 0; z-index: 1; }
 
   .lc-options {
     right: 0; bottom: 0; left: $pickerWidth; height: $optionsHeight;

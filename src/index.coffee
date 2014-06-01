@@ -33,8 +33,12 @@ init = (el, opts = {}) ->
   opts.imageURLPrefix ?= 'lib/img'
   opts.keyboardShortcuts ?= true
   opts.preserveCanvasContents ?= false
+
   opts.sizeToContainer ?= true
   opts.canvasSize ?= null
+  opts.pickerWidth ?= 60
+  opts.optionsHeight ?= 60
+
   opts.backgroundShapes ?= []
   opts.watermarkImage ?= null
   unless 'tools' of opts

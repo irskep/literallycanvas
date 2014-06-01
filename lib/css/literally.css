@@ -141,8 +141,6 @@
   .literally canvas {
     top: 0;
     right: 0;
-    bottom: 60px;
-    left: 60px;
     z-index: 1; }
   .literally .lc-options {
     right: 0;
