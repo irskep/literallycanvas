@@ -47,6 +47,8 @@ module.exports = class LiterallyCanvas
 
     if @opts.sizeToContainer
       util.sizeToContainer(@canvas, => @repaint())
+    else
+      @updateSize()
 
     @repaint()
 

@@ -10,8 +10,8 @@ var uglify = require('gulp-uglify');
 
 gulp.task('sass', function() {
   return gulp.src('scss/literally.scss')
-    .pipe(sass({ style: 'compressed' }))
-    .pipe(gulp.dest('lib/css/literally.css'))
+    .pipe(sass({ style: 'nested' }))
+    .pipe(gulp.dest('lib/css'))
 });
 
 

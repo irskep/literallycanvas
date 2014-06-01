@@ -34,6 +34,7 @@ init = (el, opts = {}) ->
   opts.keyboardShortcuts ?= true
   opts.preserveCanvasContents ?= false
   opts.sizeToContainer ?= true
+  opts.canvasSize ?= null
   opts.backgroundShapes ?= []
   opts.watermarkImage ?= null
   unless 'tools' of opts
@@ -50,13 +51,16 @@ init = (el, opts = {}) ->
   $el = $(el)
   $el.addClass('literally')
 
-  unless $el.find('canvas').length
-    $el.append('<canvas>')
+  $el.append('<canvas>') unless $el.find('canvas').length
+  $canvas = $el.find('canvas')
 
   if opts.canvasSize?
-    opts.sizeToContainer = true
+    opts.sizeToContainer = false
+    $canvas.css
+      width: opts.canvasSize.x + 'px'
+      height: opts.canvasSize.y + 'px'
 
-  lc = new LiterallyCanvas($el.find('canvas').get(0), opts)
+  lc = new LiterallyCanvas($canvas.get(0), opts)
   initReact(el, lc, opts.tools, opts.imageURLPrefix)
 
   if 'onInit' of opts

@@ -25,7 +25,7 @@
     "envify": "~1.2.1",
     "gulp": "~3.6.2",
     "uglify-js": "~2.4.13",
-    "gulp-ruby-sass": "~0.4.3",
+    "gulp-ruby-sass": "~0.5.0",
     "coffeeify": "~0.6.0",
     "reactify": "~0.13.1",
     "vinyl-source-stream": "~0.1.1",
