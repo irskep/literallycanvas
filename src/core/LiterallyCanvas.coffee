@@ -103,6 +103,8 @@ module.exports = class LiterallyCanvas
     @colors[name] = color
     @canvas.style.backgroundColor = @colors.background
     @trigger "#{name}ColorChange", @colors[name]
+    if name == 'background'
+      @trigger('drawingChange', {})
     @repaint()
 
   getColor: (name) -> @colors[name]
