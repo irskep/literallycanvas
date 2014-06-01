@@ -56,6 +56,11 @@ init = (el, opts = {}) ->
 
   if opts.canvasSize?
     opts.sizeToContainer = false
+    $el.css('background-color', '#aaa');
+    $('<div class="background-div">').css(
+      width: opts.canvasSize.x + 'px'
+      height: opts.canvasSize.y + 'px'
+    ).appendTo($el)
     $canvas.css
       width: opts.canvasSize.x + 'px'
       height: opts.canvasSize.y + 'px'

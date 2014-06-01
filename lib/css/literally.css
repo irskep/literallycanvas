@@ -131,18 +131,26 @@
     left: 0;
     bottom: 0;
     width: 60px;
-    background-color: #ddd; }
+    background-color: #ddd;
+    z-index: 2; }
+  .literally .background-div {
+    top: 0;
+    left: 60px;
+    background-color: white;
+    z-index: 0; }
   .literally canvas {
     top: 0;
     right: 0;
     bottom: 60px;
-    left: 60px; }
+    left: 60px;
+    z-index: 1; }
   .literally .lc-options {
     right: 0;
     bottom: 0;
     left: 60px;
     height: 60px;
-    background-color: #ddd; }
+    background-color: #ddd;
+    z-index: 2; }
 
 .literally .lc-picker {
   border-right: 1px solid black; }
