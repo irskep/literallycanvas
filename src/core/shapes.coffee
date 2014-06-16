@@ -84,17 +84,20 @@ defineShape 'Image',
     @x = args.x or 0
     @y = args.y or 0
     @image = args.image or null
+    @scale = args.scale or 1
   draw: (ctx, retryCallback) ->
     if @image.width
-      ctx.drawImage(@image, @x, @y)
+      ctx.drawImage(
+        @image, @x, @y, @image.width * @scale, @image.height * @scale)
     else
       @image.onload = retryCallback
-  getBoundingRect: -> {@x, @y, width: @image.width, height: @image.height}
-  toJSON: -> {@x, @y, imageSrc: @image.src}
+  getBoundingRect: ->
+    {@x, @y, width: @image.width * @scale, height: @image.height * @scale}
+  toJSON: -> {@x, @y, @scale, imageSrc: @image.src}
   fromJSON: (data) ->
     img = new Image()
     img.src = data.imageSrc
-    createShape('Image', {x: data.x, x: data.y, image: img})
+    createShape('Image', {x: data.x, x: data.y, image: img, scale: data.scale})
 
 
 defineShape 'Rectangle',
