@@ -1,73 +1,89 @@
-var browserify = require('browserify');
+'use strict';
+
 var gulp = require('gulp');
-var connect = require('gulp-connect');
+var gutil = require('gulp-util');
+
+var livereload = require('gulp-livereload');
+var connect = require('connect');
+
 var rename = require('gulp-rename');
-var sass = require('gulp-ruby-sass');
+var browserify = require('browserify');
+var watchify = require('watchify');
+var es6ify = require('es6ify');
+var reactify = require('reactify');
 var source = require('vinyl-source-stream');
-var streamify = require('gulp-streamify')
 var uglify = require('gulp-uglify');
 
 
-gulp.task('sass', function() {
-  return gulp.src('scss/literallycanvas.scss')
-    .pipe(sass({ style: 'compressed' }))
-    .pipe(gulp.dest('lib/css'))
-    .pipe(connect.reload())
-});
+/** Config variables */
+var SERVER_PORT = 8888;
+var LIVERELOAD_PORT = 35731;
+
+
+/** File paths */
+var JS_DIST_DIR = 'dist/js';
+var JS_ENTRY_FILE = './src/index.jsx';
+
+// traceur runtime path:
+// node_modules/es6ify/node_modules/traceur/bin/traceur-runtime.js
+// react path:
+// bower_components/react/react-with-addons.js
+
+
+function compileScripts(watch, entryFile, outputDir, outputFile) {
+    gutil.log('Starting browserify');
+
+    es6ify.traceurOverrides = {experimental: true};
+
+    var bundler = browserify(entryFile, {debug: true, extensions: ['.jsx']})
+        //.add(es6ify.runtime)
+        .transform(reactify);
+        //.transform(es6ify.configure(/.jsx/));
+
+    var rebundle = function () {
+        var stream = bundler.bundle()
+            //.on('error', gutil.log.bind(gutil, 'Browserify Error'))
+            .on('error', function (err) {
+                console.error(err.message);
+            })
+            .pipe(source(entryFile))
+            .pipe(rename(outputFile))
+            .pipe(gulp.dest(outputDir))
+            .pipe(livereload());
+    }
+
+    if (watch) {
+        bundler = watchify(bundler);
+    }
+
+    //bundler.on('update', rebundle);
+    return rebundle();
+}
 
 
 gulp.task('browserify', function() {
-  var bundleStream = browserify({
-      basedir: 'src', extensions: ['.js', '.coffee'], debug: true
-  }).add('./index.coffee')
-    .external('React/addons')
-    .external('React')
-    .transform('coffeeify')
-    .bundle({standalone: 'LC'})
-    .on('error', function (err) {
-      if (err) {
-        console.error(err.toString());
-      }
-    });
-
-  return bundleStream
-    .pipe(source('./src/index.coffee'))
-    .pipe(rename('literallycanvas.js'))
-    .pipe(gulp.dest('./lib/js/'))
-    .pipe(connect.reload());
+    compileScripts(true, JS_ENTRY_FILE, JS_DIST_DIR, 'literallycanvas.js');
 });
 
 
 gulp.task('uglify', ['browserify'], function() {
-  return gulp.src('./lib/js/literallycanvas.js')
-    .pipe(uglify())
-    .pipe(rename('literallycanvas.min.js'))
-    .pipe(gulp.dest('./lib/js'));
+    return gulp.src('./dist/js/literallycanvas.js')
+        .pipe(uglify())
+        .pipe(rename('literallycanvas.min.js'))
+        .pipe(gulp.dest('./lib/js'));
 });
 
 
-gulp.task('default', ['uglify', 'sass'], function() {
+gulp.task('serve', function (next) {
+    var server = connect();
+    server.use(connect.static('./')).listen(SERVER_PORT, next);
 });
 
 
-gulp.task('demo-reload', function () {
-  return gulp.src('demo/*').pipe(connect.reload());
-});
-
-
-gulp.task('watch', function() {
-  gulp.watch(['src/*.coffee', 'src/*/*.coffee'], ['browserify']);
-  gulp.watch('scss/*.scss', ['sass']);
-  gulp.watch('demo/*', ['demo-reload']);
-});
-
-
-gulp.task('serve', function() {
-  connect.server({
-    livereload: {port: 35728}
-  });
-});
-
-
-gulp.task('dev', ['browserify', 'sass', 'watch', 'serve'], function() {
+/**
+ * Run default task
+ */
+gulp.task('default', ['browserify', 'serve'], function () {
+    livereload.listen({port: LIVERELOAD_PORT});
+    gulp.watch(['src/**/*'], ['browserify']);
 });
