@@ -1,7 +1,7 @@
 "use strict";
 
 var shapeNamespace = {
-  shapeRegistry: {}
+  registry: {}
 };
 
 
@@ -29,16 +29,16 @@ let Shape = shapeNamespace.Shape = class Shape {
 
 
 let registerShape = shapeNamespace.registerShape = function(typeId, cls) {
-  shapeNamespace.shapeRegistry[typeId] = cls;
+  shapeNamespace.registry[typeId] = cls;
 };
 
 
 let createShape = shapeNamespace.createShape = function(typeId, attributes, id) {
-  if (!shapeNamespace.shapeRegistry[typeId]) {
+  if (!shapeNamespace.registry[typeId]) {
     throw ("There is no shape type " + typeId)
   }
   if (!id) id = getGUID();
-  return new shapeNamespace.shapeRegistry[typeId](typeId, attributes, id)
+  return new shapeNamespace.registry[typeId](typeId, attributes, id)
 };
 
 
@@ -48,15 +48,7 @@ let createShape = shapeNamespace.createShape = function(typeId, attributes, id) 
   style: {strokeColor, strokeWidth, fillColor}
 }
 */
-registerShape('Rectangle', class Rectangle extends Shape {
-  constructor(typeId, attributes, id) {
-    super(typeId, attributes, id);
-  }
-
-  blah() {
-    console.log('blah!');
-  }
-});
+registerShape('Rectangle', class Rectangle extends Shape { });
 
 /*
 {
@@ -69,24 +61,13 @@ registerShape('Ellipse', class Ellipse extends Shape {});
 
 /*
 {
-  end1: {x, y}
-  end2: {x, y}
-  cap1: {style: 'round', shape: null or shape, offset: amount}
-  cap2: {style: 'round', shape: null or shape, offset: amount}
-  style: {strokeColor, strokeWidth, dash: null}
-}
-*/
-registerShape('Line', class Line extends Shape {});
-
-/*
-{
   program: [  // list of values of one of these types:
     [x, y]
     {(strokeColor: 'black')?, (strokeWidth: 5)?}
   ]
   cap1: {style: 'round', shape: null or shape, offset: amount}
   cap2: {style: 'round', shape: null or shape, offset: amount}
-  style: {strokeColor, strokeWidth, dash: null}
+  dash: null
 }
 */
 registerShape('Path', class Path extends Shape {});
@@ -101,7 +82,7 @@ registerShape('Path', class Path extends Shape {});
   ]
   cap1: {style: 'round', shape: null or shape, offset: amount}
   cap2: {style: 'round', shape: null or shape, offset: amount}
-  style: {strokeColor, strokeWidth, dash: null}
+  dash: null
 }
 */
 registerShape('SmoothedPath', class SmoothedPath extends Shape {});
@@ -114,7 +95,7 @@ registerShape('SmoothedPath', class SmoothedPath extends Shape {});
   ]
   cap1: {style: 'round', shape: null or shape, offset: amount}
   cap2: {style: 'round', shape: null or shape, offset: amount}
-  style: {strokeColor, strokeWidth, dash: null}
+  dash: null
 }
 */
 registerShape('Bezier', class Bezier extends Shape {});
