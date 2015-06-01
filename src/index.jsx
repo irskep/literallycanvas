@@ -1,4 +1,3 @@
-console.log("Good morning! 2");
-console.log('more');
-
-require('./two');
+window.LC = {
+  shape: require("./shape/base")
+}

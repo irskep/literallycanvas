@@ -35,7 +35,8 @@ function compileScripts(watch, entryFile, outputDir, outputFile) {
 
     es6ify.traceurOverrides = {experimental: true};
 
-    var bundler = browserify(entryFile, {debug: true, extensions: ['.jsx']})
+    var bundler = browserify(
+            entryFile, {debug: true, extensions: ['.jsx', '.js']})
         //.add(es6ify.runtime)
         .transform(reactify);
         //.transform(es6ify.configure(/.jsx/));
