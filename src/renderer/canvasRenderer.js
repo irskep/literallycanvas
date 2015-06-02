@@ -19,6 +19,7 @@ canvasRendererNamespace.renderShapeToCanvas = function(shape, ctx) {
   canvasRendererNamespace.registry[shape.typeId](shape, ctx)
 }
 
+
 registerCanvasRenderer('Rectangle', function(shape, ctx) {
   var s = shape.attributes.style;
   var d = shape.attributes.dimensions;
@@ -39,7 +40,40 @@ registerCanvasRenderer('Rectangle', function(shape, ctx) {
         d.xmin + 0.5, d.ymin + 0.5, d.xmax - d.xmin, d.ymax - d.ymin);
     }
   }
-})
+});
+
+
+registerCanvasRenderer('Ellipse', function(shape, ctx) {
+  var s = shape.attributes.style;
+  var d = shape.attributes.dimensions;
+
+  var width = d.xmax - d.xmin;
+  var height = d.ymax - d.ymin;
+
+  ctx.save();
+  var halfWidth = Math.floor(width / 2);
+  var halfHeight = Math.floor(height / 2);
+  var centerX = (d.xmax + d.xmin) / 2;
+  var centerY = (d.ymax + d.ymin) / 2;
+
+  ctx.translate(centerX, centerY);
+  ctx.scale(1, Math.abs(height / width));
+  ctx.beginPath();
+  ctx.arc(0, 0, Math.abs(halfWidth), 0, Math.PI * 2);
+  ctx.closePath();
+  ctx.restore();
+
+  if (s.fillColor) {
+    ctx.fillStyle = s.fillColor;
+    ctx.fill();
+  }
+
+  if (s.strokeColor && s.strokeWidth) {
+    ctx.lineWidth = s.strokeWidth;
+    ctx.strokeStyle = s.strokeColor;
+    ctx.stroke();
+  }
+});
 
 
 module.exports = canvasRendererNamespace;

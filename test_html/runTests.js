@@ -39,3 +39,12 @@ renderShapes(120, 120, 'Basic rect', [
       style: {strokeColor: 'black', strokeWidth: 1, fillColor: 'red'}
     })
 ]);
+
+
+renderShapes(120, 120, 'Basic ellipse', [
+  LC.shape.createShape(
+    'Ellipse', {
+      dimensions: {xmin: 10, ymin: 10, xmax: 110, ymax: 110},
+      style: {strokeColor: 'black', strokeWidth: 1, fillColor: 'red'}
+    })
+]);
