@@ -37,9 +37,8 @@ function compileScripts(watch, entryFile, outputDir, outputFile) {
 
     var bundler = browserify(
             entryFile, {debug: true, extensions: ['.jsx', '.js']})
-        //.add(es6ify.runtime)
-        .transform(reactify);
-        //.transform(es6ify.configure(/.jsx/));
+        .transform(reactify)
+        .transform(es6ify.configure(/.js[x]?/));
 
     var rebundle = function () {
         var stream = bundler.bundle()

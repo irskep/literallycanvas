@@ -1,8 +1,15 @@
 <html>
 
-<head></head>
+<head>
+  <style>
+    .canvas-test canvas {
+      border: 1px solid black;
+    }
+  </style>
+</head>
 
 <body>
+  <script src="/node_modules/es6ify/node_modules/traceur/bin/traceur-runtime.js"></script>
   <script src="/dist/js/literallycanvas.js"></script>
   <script src="runTests.js"></script>
   <script src="//localhost:35731/livereload.js"></script>
